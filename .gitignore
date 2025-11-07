@@ -2,4 +2,4 @@
 .env
 
 # Let's Encrypt certificates
-traefik/acme.json
+proxy/traefik/acme.json
