@@ -15,4 +15,4 @@ tasks:
   run:
     desc: runs all CI commands
     cmds:
-      - task format:check
+      - task: format:check

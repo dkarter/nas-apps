@@ -16,4 +16,4 @@ commit-msg:
 pre-push:
   commands:
     ci:
-      run: task ci:run
+      run: task ci
