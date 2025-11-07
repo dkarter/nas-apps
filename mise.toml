@@ -1,0 +1,7 @@
+[tools]
+committed = "latest"
+docker-cli = "latest"
+dprint = "latest"
+gitleaks = "latest"
+lefthook = "latest"
+task = "latest"

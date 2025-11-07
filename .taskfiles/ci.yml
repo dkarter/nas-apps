@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: 3
+
+tasks:
+  format:check:
+    desc: Check formatting
+    silent: true
+    cmd: dprint check
+
+  run:
+    desc: runs all CI commands
+    cmds:
+      - task format:check

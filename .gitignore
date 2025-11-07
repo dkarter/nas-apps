@@ -1,0 +1,5 @@
+# Environment variables (contains sensitive API tokens)
+.env
+
+# Let's Encrypt certificates
+traefik/acme.json

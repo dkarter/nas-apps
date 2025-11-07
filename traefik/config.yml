@@ -1,0 +1,81 @@
+http:
+  routers:
+    # NAS ADM Router
+    nas-adm:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`nas.console.lol`)'
+      middlewares:
+        - default-headers
+      tls:
+        certResolver: digitalocean
+      service: nas-adm
+
+    # Syncthing Router
+    syncthing:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`syncthing.console.lol`)'
+      middlewares:
+        - default-headers
+      tls:
+        certResolver: digitalocean
+      service: syncthing
+
+    portainer:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`portainer.console.lol`)'
+      middlewares:
+        - default-headers
+      tls:
+        certResolver: digitalocean
+      service: portainer
+
+  services:
+    # NAS ADM Service
+    nas-adm:
+      loadBalancer:
+        servers:
+          - url: 'https://localhost:8001'
+        passHostHeader: true
+
+    # Syncthing Service
+    syncthing:
+      loadBalancer:
+        servers:
+          - url: 'http://localhost:28384'
+        passHostHeader: true
+
+    # Syncthing Service
+    portainer:
+      loadBalancer:
+        servers:
+          - url: 'https://localhost:19943'
+        passHostHeader: true
+
+  middlewares:
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+
+    default-whitelist:
+      ipWhiteList:
+        sourceRange:
+          - '10.0.0.0/8'
+          - '172.16.0.0/12'
+
+    secured:
+      chain:
+        middlewares:
+          - default-whitelist
+          - default-headers

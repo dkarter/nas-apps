@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/evilmartians/lefthook/refs/heads/master/schema.json
+pre-commit:
+  parallel: true
+  jobs:
+    - name: Check Secret Leaks
+      run: gitleaks git --pre-commit --redact --staged --verbose --no-banner
+
+    - name: Check formatting
+      run: task ci:format:check
+
+commit-msg:
+  jobs:
+    - name: conventional commits
+      run: committed --commit-file {1}
+
+pre-push:
+  commands:
+    ci:
+      run: task ci:run

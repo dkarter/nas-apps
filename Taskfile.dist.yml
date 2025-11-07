@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: 3
+
+includes:
+  ci:
+    taskfile: ./.taskfiles/ci.yml
+
+tasks:
+  default:
+    cmd: task -l
+    silent: true
