@@ -46,7 +46,7 @@ http:
       entryPoints:
         - 'https'
       rule: 'Host(`rustfs.console.lol`) && Path(`/`) && Method(`GET`)'
-      priority: 200
+      priority: 300
       middlewares:
         - rustfs-console-root
         - default-headers
@@ -57,8 +57,8 @@ http:
     rustfs-console-api:
       entryPoints:
         - 'https'
-      rule: 'Host(`rustfs.console.lol`) && !PathPrefix(`/rustfs/console`)'
-      priority: 100
+      rule: 'Host(`rustfs.console.lol`)'
+      priority: 1
       middlewares:
         - s3-headers
       tls:
@@ -68,8 +68,8 @@ http:
     rustfs-console:
       entryPoints:
         - 'https'
-      rule: 'Host(`rustfs.console.lol`)'
-      priority: 1
+      rule: 'Host(`rustfs.console.lol`) && PathPrefix(`/rustfs/console`)'
+      priority: 200
       middlewares:
         - rustfs-console-root
         - default-headers
