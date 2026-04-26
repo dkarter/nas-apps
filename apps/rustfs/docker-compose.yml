@@ -1,0 +1,55 @@
+name: rustfs
+
+services:
+  rustfs-init:
+    image: busybox:1.37
+    container_name: rustfs-init
+    user: root
+    command: ['sh', '-c', 'chown -R 10001:10001 /data /logs']
+    volumes:
+      - rustfs_data:/data
+      - rustfs_logs:/logs
+    restart: 'no'
+
+  rustfs:
+    image: rustfs/rustfs:${RUSTFS_IMAGE_TAG:-latest}
+    container_name: rustfs
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      RUSTFS_VOLUMES: /data
+      RUSTFS_ADDRESS: 0.0.0.0:9000
+      RUSTFS_CONSOLE_ADDRESS: 0.0.0.0:9001
+      RUSTFS_CONSOLE_ENABLE: 'true'
+      RUSTFS_SERVER_DOMAINS: s3.console.lol
+      RUSTFS_CORS_ALLOWED_ORIGINS: https://rustfs.console.lol
+      RUSTFS_CONSOLE_CORS_ALLOWED_ORIGINS: https://rustfs.console.lol
+      RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:?set RUSTFS_ACCESS_KEY in Portainer or Fnox/keychain}
+      RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY:?set RUSTFS_SECRET_KEY in Portainer or Fnox/keychain}
+      RUSTFS_OBS_LOGGER_LEVEL: ${RUSTFS_OBS_LOGGER_LEVEL:-info}
+      RUSTFS_OBS_LOG_DIRECTORY: /logs
+    ports:
+      - ${RUSTFS_API_BIND:-127.0.0.1:9000}:9000
+      - ${RUSTFS_CONSOLE_BIND:-127.0.0.1:9001}:9001
+    volumes:
+      - rustfs_data:/data
+      - rustfs_logs:/logs
+    restart: unless-stopped
+    healthcheck:
+      test: [
+        'CMD',
+        'sh',
+        '-c',
+        'curl -fsS http://127.0.0.1:9000/health && curl -fsS http://127.0.0.1:9001/rustfs/console/health',
+      ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 45s
+    depends_on:
+      rustfs-init:
+        condition: service_completed_successfully
+
+volumes:
+  rustfs_data:
+  rustfs_logs:

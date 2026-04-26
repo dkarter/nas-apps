@@ -1,0 +1,9 @@
+default_provider = "onepass"
+
+[providers]
+onepass = { type = "1password", vault = "fnox" }
+keychain = { type = "keychain", service = "fnox" }
+
+[secrets]
+RUSTFS_ACCESS_KEY = { provider = "keychain", value = "RUSTFS_ACCESS_KEY" }
+RUSTFS_SECRET_KEY = { provider = "keychain", value = "RUSTFS_SECRET_KEY" }

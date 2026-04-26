@@ -32,6 +32,27 @@ http:
         certResolver: digitalocean
       service: portainer
 
+    rustfs-s3:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`s3.console.lol`)'
+      middlewares:
+        - s3-headers
+      tls:
+        certResolver: digitalocean
+      service: rustfs-s3
+
+    rustfs-console:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`rustfs.console.lol`)'
+      middlewares:
+        - rustfs-console-root
+        - default-headers
+      tls:
+        certResolver: digitalocean
+      service: rustfs-console
+
   services:
     # NAS ADM Service
     nas-adm:
@@ -54,6 +75,18 @@ http:
           - url: 'https://localhost:19943'
         passHostHeader: true
 
+    rustfs-s3:
+      loadBalancer:
+        servers:
+          - url: 'http://localhost:9000'
+        passHostHeader: true
+
+    rustfs-console:
+      loadBalancer:
+        servers:
+          - url: 'http://localhost:9001'
+        passHostHeader: true
+
   middlewares:
     default-headers:
       headers:
@@ -67,6 +100,17 @@ http:
         customFrameOptionsValue: SAMEORIGIN
         customRequestHeaders:
           X-Forwarded-Proto: https
+
+    s3-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+
+    rustfs-console-root:
+      redirectRegex:
+        regex: '^https://rustfs\.console\.lol/?$'
+        replacement: 'https://rustfs.console.lol/rustfs/console/'
+        permanent: true
 
     default-whitelist:
       ipWhiteList:

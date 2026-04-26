@@ -3,17 +3,17 @@ pre-commit:
   parallel: true
   jobs:
     - name: Check Secret Leaks
-      run: task ci:secret:check
+      run: mise run ci:secret:check
 
     - name: Check formatting
-      run: task ci:format:check
+      run: mise run ci:format:check
 
 commit-msg:
   jobs:
     - name: conventional commits
-      run: committed --commit-file {1}
+      run: mise exec -- committed --commit-file {1}
 
 pre-push:
   commands:
     ci:
-      run: task ci
+      run: mise run ci

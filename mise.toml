@@ -2,6 +2,51 @@
 committed = "latest"
 docker-cli = "latest"
 dprint = "latest"
+fnox = "latest"
 gitleaks = "latest"
 lefthook = "latest"
-task = "latest"
+pitchfork = "latest"
+
+[tasks.fmt]
+description = "Formats all supported files"
+run = "dprint fmt"
+
+[tasks.format]
+alias = "fmt"
+
+[tasks."ci:format:check"]
+description = "Checks formatting"
+run = "dprint check"
+
+[tasks."ci:secret:check"]
+description = "Checks staged files for secret leaks"
+run = "gitleaks git --pre-commit --redact --staged --verbose --no-banner"
+
+[tasks.ci]
+description = "Runs all CI checks"
+depends = ["ci:format:check"]
+
+[tasks."rustfs:config"]
+description = "Validates the RustFS Docker Compose stack"
+dir = "apps/rustfs"
+run = "fnox exec -- docker compose config --quiet"
+
+[tasks."rustfs:up"]
+description = "Starts RustFS with keychain-backed secrets"
+dir = "apps/rustfs"
+run = "fnox exec -- docker compose up -d"
+
+[tasks."rustfs:down"]
+description = "Stops RustFS"
+dir = "apps/rustfs"
+run = "fnox exec -- docker compose down"
+
+[tasks."rustfs:logs"]
+description = "Follows RustFS logs"
+dir = "apps/rustfs"
+run = "fnox exec -- docker compose logs -f rustfs"
+
+[tasks."rustfs:health"]
+description = "Checks RustFS API and console health endpoints"
+dir = "apps/rustfs"
+run = "fnox exec -- docker compose exec -T rustfs sh -c 'curl -fsS http://127.0.0.1:9000/health && curl -fsS http://127.0.0.1:9001/rustfs/console/health'"
