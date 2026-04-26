@@ -1,4 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/evilmartians/lefthook/refs/heads/master/schema.json
+#
+output:
+  - summary
+
 pre-commit:
   parallel: true
   jobs:
