@@ -29,7 +29,7 @@ providers:
 certificatesResolvers:
   digitalocean:
     acme:
-      storage: acme.json
+      storage: /letsencrypt/acme.json
       dnsChallenge:
         provider: digitalocean
         delayBeforeCheck: 0

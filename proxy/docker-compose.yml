@@ -13,7 +13,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik/traefik.yml:/traefik.yml:ro
       - ./traefik/config.yml:/config.yml:ro
-      - ./traefik/acme.json:/acme.json
+      - traefik-acme:/letsencrypt
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.services.traefik.loadbalancer.server.port=8080'
@@ -31,3 +31,6 @@ services:
       - 'traefik.http.routers.traefik-secure.tls.domains[0].main=console.lol'
       - 'traefik.http.routers.traefik-secure.tls.domains[0].sans=*.console.lol'
       - 'traefik.http.routers.traefik-secure.service=api@internal'
+
+volumes:
+  traefik-acme:
