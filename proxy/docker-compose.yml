@@ -11,8 +11,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./proxy/traefik/traefik.yml:/traefik.yml:ro
-      - ./proxy/traefik/config.yml:/config.yml:ro
+      - ./traefik/traefik.yml:/traefik.yml:ro
+      - ./traefik/config.yml:/config.yml:ro
       - traefik-acme:/letsencrypt
     labels:
       - 'traefik.enable=true'
