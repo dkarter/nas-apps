@@ -8,14 +8,11 @@ services:
       - no-new-privileges:true
     environment:
       - DO_AUTH_TOKEN=${DO_AUTH_TOKEN}
-    configs:
-      - source: traefik_static
-        target: /traefik.yml
-      - source: traefik_dynamic
-        target: /config.yml
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./proxy/traefik/traefik.yml:/traefik.yml:ro
+      - ./proxy/traefik/config.yml:/config.yml:ro
       - traefik-acme:/letsencrypt
     labels:
       - 'traefik.enable=true'
@@ -37,9 +34,3 @@ services:
 
 volumes:
   traefik-acme:
-
-configs:
-  traefik_static:
-    file: ./traefik/traefik.yml
-  traefik_dynamic:
-    file: ./traefik/config.yml
