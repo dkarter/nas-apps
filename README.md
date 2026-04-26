@@ -114,7 +114,7 @@ mise run rustfs:up
 mise run rustfs:health
 ```
 
-The local console URL is `http://localhost:9001/rustfs/console/`. The Traefik route redirects `https://rustfs.console.lol` to that console path automatically.
+The local console URL is `http://localhost:9001/rustfs/console/`. The Traefik route redirects `https://rustfs.console.lol` to that console path automatically and routes non-console RustFS requests on that host to the S3/API port so the console can use the current host as its default server address.
 
 For Portainer GitOps, set `RUSTFS_ACCESS_KEY` and `RUSTFS_SECRET_KEY` as stack environment variables rather than committing an `.env` file.
 
