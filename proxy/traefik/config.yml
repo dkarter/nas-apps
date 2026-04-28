@@ -32,6 +32,16 @@ http:
         certResolver: digitalocean
       service: portainer
 
+    shell-in-a-box:
+      entryPoints:
+        - 'https'
+      rule: 'Host(`shell.console.lol`)'
+      middlewares:
+        - default-headers
+      tls:
+        certResolver: digitalocean
+      service: shell-in-a-box
+
     rustfs-s3:
       entryPoints:
         - 'https'
@@ -109,6 +119,12 @@ http:
       loadBalancer:
         servers:
           - url: 'http://localhost:9001'
+        passHostHeader: true
+
+    shell-in-a-box:
+      loadBalancer:
+        servers:
+          - url: 'http://localhost:4200'
         passHostHeader: true
 
   middlewares:
