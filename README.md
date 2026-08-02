@@ -99,6 +99,12 @@ The following services are pre-configured:
 
 RustFS runs as a separate app in `apps/rustfs` and is routed by the existing Traefik file provider.
 
+RustFS data is stored in the external Docker volume `rustfs_rustfs_data`. Portainer stack updates reuse this volume and cannot remove it as part of the Compose project lifecycle. The volume must exist before the first deployment; create it in Portainer or with:
+
+```bash
+docker volume create rustfs_rustfs_data
+```
+
 Store local RustFS credentials in the macOS keychain through Fnox:
 
 ```bash

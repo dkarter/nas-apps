@@ -12,7 +12,7 @@ services:
     restart: 'no'
 
   rustfs:
-    image: rustfs/rustfs:${RUSTFS_IMAGE_TAG:-latest}
+    image: rustfs/rustfs:1.0.0-beta.12
     container_name: rustfs
     security_opt:
       - no-new-privileges:true
@@ -52,4 +52,6 @@ services:
 
 volumes:
   rustfs_data:
+    external: true
+    name: rustfs_rustfs_data
   rustfs_logs:
