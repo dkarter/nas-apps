@@ -55,5 +55,5 @@ services:
 volumes:
   rustfs_data:
     external: true
-    name: rustfs_rustfs_data
+    name: rustfs_rustfs_data_v2
   rustfs_logs:
