@@ -124,6 +124,14 @@ The local console URL is `http://localhost:9001/rustfs/console/`. The Traefik ro
 
 For Portainer GitOps, set `RUSTFS_ACCESS_KEY` and `RUSTFS_SECRET_KEY` as stack environment variables rather than committing an `.env` file.
 
+Also set `RUSTFS_IAM_MASTER_KEY` to a new, strong generated secret and keep it stable. When recovering IAM data encrypted with previous root credentials, temporarily set `RUSTFS_IAM_MASTER_KEY_OLD_KEYS` to the old secret key and the old access/secret pair as comma-separated candidates:
+
+```text
+<old-secret-key>,<old-access-key>:<old-secret-key>
+```
+
+After RustFS has loaded IAM successfully and rewritten the legacy records, remove `RUSTFS_IAM_MASTER_KEY_OLD_KEYS`. Do not remove or rotate `RUSTFS_IAM_MASTER_KEY` without another key-rotation migration.
+
 ### Traefik Dashboard Access
 
 The dashboard is protected with basic auth:

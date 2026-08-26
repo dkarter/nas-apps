@@ -26,6 +26,8 @@ services:
       RUSTFS_CONSOLE_CORS_ALLOWED_ORIGINS: https://rustfs.console.lol
       RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:?set RUSTFS_ACCESS_KEY in Portainer or Fnox/keychain}
       RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY:?set RUSTFS_SECRET_KEY in Portainer or Fnox/keychain}
+      RUSTFS_IAM_MASTER_KEY: ${RUSTFS_IAM_MASTER_KEY:?set RUSTFS_IAM_MASTER_KEY in Portainer or Fnox/keychain}
+      RUSTFS_IAM_MASTER_KEY_OLD_KEYS: ${RUSTFS_IAM_MASTER_KEY_OLD_KEYS:-}
       RUSTFS_OBS_LOGGER_LEVEL: ${RUSTFS_OBS_LOGGER_LEVEL:-info}
       RUSTFS_OBS_LOG_DIRECTORY: /logs
     ports:
