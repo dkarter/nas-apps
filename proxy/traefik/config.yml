@@ -64,21 +64,10 @@ http:
         certResolver: digitalocean
       service: rustfs-console
 
-    rustfs-console-api:
-      entryPoints:
-        - 'https'
-      rule: 'Host(`rustfs.console.lol`)'
-      priority: 1
-      middlewares:
-        - s3-headers
-      tls:
-        certResolver: digitalocean
-      service: rustfs-s3
-
     rustfs-console:
       entryPoints:
         - 'https'
-      rule: 'Host(`rustfs.console.lol`) && PathPrefix(`/rustfs/console`)'
+      rule: 'Host(`rustfs.console.lol`)'
       priority: 200
       middlewares:
         - rustfs-console-root
